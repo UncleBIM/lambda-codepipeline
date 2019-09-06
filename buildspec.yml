@@ -2,7 +2,7 @@ version: 0.2
 env:
   variables:
     S3_BUCKET: "movies-api-deployment-packages-sunny"
-    PACKAGE: "github.com/mlabouardy/lambda-codepipeline"
+    PACKAGE: "github.com/UncleBIM/lambda-codepipeline"
 
 phases:
   install:
