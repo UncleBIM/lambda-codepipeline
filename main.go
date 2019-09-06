@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"os"
+	"context"
+	"time"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
@@ -31,7 +33,11 @@ func findAll() (events.APIGatewayProxyResponse, error) {
 	req := svc.ScanRequest(&dynamodb.ScanInput{
 		TableName: aws.String(os.Getenv("TABLE_NAME")),
 	})
-	res, err := req.Send()
+
+	ctx, cancel := context.WithTimeout(context.Background, 5*time.Second)
+	defer cancel()
+
+	res, err := req.Send(ctx)
 	if err != nil {
 		return events.APIGatewayProxyResponse{
 			StatusCode: http.StatusInternalServerError,
